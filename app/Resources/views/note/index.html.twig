@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1 class="mb-5">
+        Notes list <a class="btn btn-success btn-sm pull-right" href="{{ path('note_new') }}">Create a new note</a>
+    </h1>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Content</th>
+                <th scope="col">Done</th>
+                <th scope="col">Status</th>
+                <th scope="col text-right">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if notes|length == 0 %}
+                <tr>
+                    <td colspan="6">
+                        <div class="alert alert-info">
+                            No records in db
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
+            {% for note in notes %}
+                <tr>
+                    <td scope="row">
+                        {{ note.id }}
+                    </td>
+                    <td>{{ note.name }}</td>
+                    <td>{{ note.content }}</td>
+                    <td>
+                        {% if note.isDone %}
+                            <i class="fas fa-check text-success"></i>
+                        {% else %}
+                            <i class="fas fa-times text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ note.outputStatus() }}
+                    </td>
+                    <td>
+                        <a class="btn btn-secondary btn-sm" href="{{ path('note_show', { 'id': note.id }) }}">
+                            Show
+                        </a>
+                        {% if not note.isDone %}
+                            <a class="btn btn-success btn-sm" href="{{ path('note_done', { 'id': note.id }) }}">
+                                Mark as done
+                            </a>
+                        {% endif %}
+                        <a class="btn btn-primary btn-sm" href="{{ path('note_edit', { 'id': note.id }) }}">
+                            Edit
+                        </a>
+
+                        <div style="display:inline-block">
+                            <form action="{{ path('note_delete', { 'id': note.id }) }}" method="post">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                {{ form_widget(deleteForms[note.id]) }}
+                                <button class="btn btn-danger btn-sm" type="submit" value="Delete">Delete</button>
+                            </form>
+                        </div>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

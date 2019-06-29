@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <h1>Note</h1>
+
+    <div class="table-responsive">
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ note.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ note.name }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ note.content }}</td>
+            </tr>
+            <tr>
+                <th>Done</th>
+                <td>
+                    {% if note.isDone %}
+                        <i class="fas fa-check text-success"></i>
+                    {% else %}
+                        <i class="fas fa-times text-danger"></i>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ note.outputStatus() }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="mt-5"/>
+
+    <a class="btn btn-secondary btn-sm" href="{{ path('note_index') }}">
+        Back to the list
+    </a>
+
+    {% if not note.isDone %}
+        <a class="btn btn-success btn-sm" href="{{ path('note_done', { 'id': note.id }) }}">
+            Mark as done
+        </a>
+    {% endif %}
+    <a class="btn btn-primary btn-sm" href="{{ path('note_edit', { 'id': note.id }) }}">
+        Edit
+    </a>
+
+    <div style="display:inline-block">
+        {{ form_start(delete_form) }}
+        <button class="btn btn-danger btn-sm" type="submit" value="Delete">Delete</button>
+        {{ form_end(delete_form) }}
+    </div>
+
+{% endblock %}
