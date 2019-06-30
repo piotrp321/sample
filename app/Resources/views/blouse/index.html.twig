@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1 class="mb-5">
+        Blouse list <a class="btn btn-success btn-sm pull-right" href="{{ path('blouse_new') }}">Create a new blouse</a>
+    </h1>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Status</th>
+                <th scope="col text-right">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if blouses|length == 0 %}
+                <tr>
+                    <td colspan="4">
+                        <div class="alert alert-info">
+                            No records in db
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
+            {% for blouse in blouses %}
+                <tr>
+                    <td scope="row">
+                        {{ blouse.id }}
+                    </td>
+                    <td>{{ blouse.name }}</td>
+                    <td>
+                        {{ blouse.outputStatus() }}
+                    </td>
+                    <td>
+                        <a class="btn btn-secondary btn-sm" href="{{ path('blouse_show', { 'id': blouse.id }) }}">
+                            Show
+                        </a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('blouse_edit', { 'id': blouse.id }) }}">
+                            Edit
+                        </a>
+                        <div style="display:inline-block">
+                            <form action="{{ path('blouse_delete', { 'id': blouse.id }) }}" method="post">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                {{ form_widget(deleteForms[blouse.id]) }}
+                                <button class="btn btn-danger btn-sm" type="submit" value="Delete">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Shirt</h1>
+
+    <div class="table-responsive">
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ shirt.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ shirt.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ shirt.description }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ shirt.quantity }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ shirt.price }}</td>
+            </tr>
+            <tr>
+                <th>Sleeve type</th>
+                <td>{{ shirt.outputSleeve() }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ shirt.outputStatus() }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="mt-5"/>
+
+    <a class="btn btn-secondary btn-sm" href="{{ path('shirt_index') }}">
+        Back to the list
+    </a>
+
+    <a class="btn btn-primary btn-sm" href="{{ path('shirt_edit', { 'id': shirt.id }) }}">
+        Edit
+    </a>
+
+    <div style="display:inline-block">
+        {{ form_start(delete_form) }}
+        <button class="btn btn-danger btn-sm" type="submit" value="Delete">Delete</button>
+        {{ form_end(delete_form) }}
+    </div>
+{% endblock %}

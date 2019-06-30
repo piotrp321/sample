@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Create a new blouse</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary btn-sm" type="submit">Save</button>
+    {{ form_end(form) }}
+
+    <hr class="mt-5"/>
+
+    <div class="mt-4">
+        <a class="btn btn-secondary btn-sm" href="{{ path('blouse_index') }}">
+            Back to the list
+        </a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1 class="mb-5">
+        Shirt list <a class="btn btn-success btn-sm pull-right" href="{{ path('shirt_new') }}">Create a new shirt</a>
+    </h1>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Status</th>
+                <th scope="col text-right">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if shirts|length == 0 %}
+                <tr>
+                    <td colspan="4">
+                        <div class="alert alert-info">
+                            No records in db
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
+            {% for shirt in shirts %}
+                <tr>
+                    <td scope="row">
+                        {{ shirt.id }}
+                    </td>
+                    <td>{{ shirt.name }}</td>
+                    <td>
+                        {{ shirt.outputStatus() }}
+                    </td>
+                    <td>
+                        <a class="btn btn-secondary btn-sm" href="{{ path('shirt_show', { 'id': shirt.id }) }}">
+                            Show
+                        </a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('shirt_edit', { 'id': shirt.id }) }}">
+                            Edit
+                        </a>
+                        <div style="display:inline-block">
+                            <form action="{{ path('shirt_delete', { 'id': shirt.id }) }}" method="post">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                {{ form_widget(deleteForms[shirt.id]) }}
+                                <button class="btn btn-danger btn-sm" type="submit" value="Delete">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
